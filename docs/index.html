@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="elm.js"></script>
+        <script src="LocalStorage.js"></script>
+    </head>
+    <body>
+        <script>
+            var names = localInit()
+            var app = Elm.Main.fullscreen({ names : names});
+            app.ports.save.subscribe(localSave);
+            app.ports.delete.subscribe(localDelete);
+        </script>
+    </body>
+</html>
