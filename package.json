@@ -1,0 +1,17 @@
+{
+    "name": "freecodecamp-twitch-app",
+    "version": "1.0.0",
+    "description": "my zipline project for \"Use the Twich API | freeCodeCamp\"",
+    "repository": "https://github.com/nmbrgts/freecodecap-twitch-app.git",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "setup": "mkdir build; elm package install",
+        "build": "./build.sh"
+    },
+    "author": "tyler nickerson",
+    "license": "see elm-package.json",
+    "dependencies": {
+        "elm": "0.18.0",
+        "typescript": "2.6.2"
+    }
+}
