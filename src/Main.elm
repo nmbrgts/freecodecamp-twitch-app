@@ -142,10 +142,24 @@ update msg model =
             { model | inputText = s } ! []
 
         MoveStreamerUp name ->
-            { model | streamer = moveUp name model.streamer } ! []
+            let
+                newStreamerList =
+                    moveUp name model.streamer
+            in
+                { model | streamer = newStreamerList }
+                    ! [ LocalStorage.forceSave <|
+                            List.map getName newStreamerList
+                      ]
 
         MoveStreamerDown name ->
-            { model | streamer = moveDown name model.streamer } ! []
+            let
+                newStreamerList =
+                    moveDown name model.streamer
+            in
+                { model | streamer = newStreamerList }
+                    ! [ LocalStorage.forceSave <|
+                            List.map getName newStreamerList
+                      ]
 
 
 updateStreamer : Int -> (b -> a -> b) -> a -> List b -> List b

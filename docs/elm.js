@@ -23566,6 +23566,14 @@ var _user$project$LocalStorage$delete = _elm_lang$core$Native_Platform.outgoingP
 	function (v) {
 		return v;
 	});
+var _user$project$LocalStorage$forceSave = _elm_lang$core$Native_Platform.outgoingPort(
+	'forceSave',
+	function (v) {
+		return _elm_lang$core$Native_List.toArray(v).map(
+			function (v) {
+				return v;
+			});
+	});
 
 var _user$project$StyleSheet$twitchBorderGrey = A3(_elm_lang$core$Color$rgb, 218, 216, 222);
 var _user$project$StyleSheet$twitchWhite = A3(_elm_lang$core$Color$rgb, 255, 255, 255);
@@ -24616,23 +24624,31 @@ var _user$project$Main$update = F2(
 						{inputText: _p28._0}),
 					{ctor: '[]'});
 			case 'MoveStreamerUp':
+				var newStreamerList = A2(_user$project$Main$moveUp, _p28._0, model.streamer);
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{
-							streamer: A2(_user$project$Main$moveUp, _p28._0, model.streamer)
-						}),
-					{ctor: '[]'});
+						{streamer: newStreamerList}),
+					{
+						ctor: '::',
+						_0: _user$project$LocalStorage$forceSave(
+							A2(_elm_lang$core$List$map, _user$project$Main$getName, newStreamerList)),
+						_1: {ctor: '[]'}
+					});
 			default:
+				var newStreamerList = A2(_user$project$Main$moveDown, _p28._0, model.streamer);
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{
-							streamer: A2(_user$project$Main$moveDown, _p28._0, model.streamer)
-						}),
-					{ctor: '[]'});
+						{streamer: newStreamerList}),
+					{
+						ctor: '::',
+						_0: _user$project$LocalStorage$forceSave(
+							A2(_elm_lang$core$List$map, _user$project$Main$getName, newStreamerList)),
+						_1: {ctor: '[]'}
+					});
 		}
 	});
 var _user$project$Main$RequestStreamer = function (a) {

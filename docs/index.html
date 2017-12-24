@@ -11,6 +11,7 @@
             var app = Elm.Main.fullscreen({ names : names});
             app.ports.save.subscribe(localSave);
             app.ports.delete.subscribe(localDelete);
+            app.ports.forceSave.subscribe(forceSave);
         </script>
     </body>
 </html>

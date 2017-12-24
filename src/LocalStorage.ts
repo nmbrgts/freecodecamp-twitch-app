@@ -1,4 +1,4 @@
-const [localInit, localSave, localDelete]
+const [localInit, localSave, localDelete, forceSave]
     = (() => {
         const storageLocation =
             "FCC-App-StreamerList"
@@ -75,5 +75,16 @@ const [localInit, localSave, localDelete]
                 JSON.stringify(streamerList),
             )
         }
-        return [lInit, lSave, lDelete]
+
+
+        const fSave = (streamerList: string[]) => {
+            localStorage.removeItem(
+                storageLocation,
+            )
+            localStorage.setItem(
+                storageLocation,
+                JSON.stringify(streamerList),
+            )
+        }
+        return [lInit, lSave, lDelete, fSave]
     })()

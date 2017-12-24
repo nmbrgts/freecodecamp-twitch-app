@@ -1,5 +1,5 @@
 "use strict";
-const [localInit, localSave, localDelete] = (() => {
+const [localInit, localSave, localDelete, forceSave] = (() => {
     const storageLocation = "FCC-App-StreamerList";
     const defaultNames = ("[ \"OgamingSC2\" " +
         ", \"cretetion\" " +
@@ -40,5 +40,9 @@ const [localInit, localSave, localDelete] = (() => {
         localStorage.removeItem(storageLocation);
         localStorage.setItem(storageLocation, JSON.stringify(streamerList));
     };
-    return [lInit, lSave, lDelete];
+    const fSave = (streamerList) => {
+        localStorage.removeItem(storageLocation);
+        localStorage.setItem(storageLocation, JSON.stringify(streamerList));
+    };
+    return [lInit, lSave, lDelete, fSave];
 })();
