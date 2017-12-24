@@ -99,6 +99,8 @@ type Msg
     | UpdateMode Mode
     | DeleteStreamer String
     | UpdateInputText String
+    | MoveStreamerUp String
+    | MoveStreamerDown String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -139,6 +141,12 @@ update msg model =
         UpdateInputText s ->
             { model | inputText = s } ! []
 
+        MoveStreamerUp name ->
+            { model | streamer = moveUp name model.streamer } ! []
+
+        MoveStreamerDown name ->
+            { model | streamer = moveDown name model.streamer } ! []
+
 
 updateStreamer : Int -> (b -> a -> b) -> a -> List b -> List b
 updateStreamer idx f item xs =
@@ -155,6 +163,38 @@ updateStreamer idx f item xs =
                     List.reverse acc
     in
         updateItter 0 [] xs
+
+
+moveUp : String -> List Streamer -> List Streamer
+moveUp name streamers =
+    case streamers of
+        s1 :: s2 :: streamers ->
+            if getName s2 == name then
+                s2 :: s1 :: streamers
+            else
+                s1 :: moveUp name (s2 :: streamers)
+
+        s :: [] ->
+            [ s ]
+
+        [] ->
+            []
+
+
+moveDown : String -> List Streamer -> List Streamer
+moveDown name streamers =
+    case streamers of
+        s1 :: s2 :: streamers ->
+            if getName s1 == name then
+                s2 :: s1 :: streamers
+            else
+                s1 :: moveDown name (s2 :: streamers)
+
+        s :: [] ->
+            [ s ]
+
+        [] ->
+            []
 
 
 
@@ -232,8 +272,6 @@ usersDecoder =
 streamsDecoder : StreamerPartial1 -> Decoder (StreamerInfo (Maybe String))
 streamsDecoder partial =
     Decode.succeed partial
-        -- -- logoUrl
-        -- |> andMap (nullableAt [ "stream", "preview", "medium" ] Decode.string)
         -- streamUrl
         |> andMap (nullableAt [ "stream", "channel", "url" ] Decode.string)
         -- game
@@ -334,21 +372,13 @@ header model =
                         , spacing 5
                         , padding 5
                         ]
-                        [ button DPurpleBG
-                            [ height (px 20)
-                            , width (px 20)
-                            , onClick (RequestStreamer model.inputText)
-                            ]
-                          <|
-                            bold "+"
-                        , Input.text
+                        [ newStreamerInput
                             None
-                            []
-                            { onChange = UpdateInputText
-                            , value = model.inputText
-                            , label = Input.hiddenLabel "Input Streamer"
-                            , options = []
-                            }
+                            model.inputText
+                            UpdateInputText
+                        , plusButton
+                            DPurpleBG
+                            (RequestStreamer model.inputText)
                         ]
                   else
                     empty
@@ -357,7 +387,11 @@ header model =
         ]
 
 
-topBarButton : Mode -> String -> Mode -> Element Class Variation Msg
+topBarButton :
+    Mode
+    -> String
+    -> Mode
+    -> Element Class Variation Msg
 topBarButton mode txt m =
     button TopBarButton
         [ height (px 30)
@@ -366,6 +400,45 @@ topBarButton mode txt m =
         , onClick <| UpdateMode m
         ]
         (text txt)
+
+
+plusButton :
+    Class
+    -> Msg
+    -> Element Class Variation Msg
+plusButton class msg =
+    button class
+        [ height (px 20)
+        , width (px 20)
+        , onClick msg
+        ]
+        (bold "+")
+
+
+newStreamerInput :
+    Class
+    -> String
+    -> (String -> Msg)
+    -> Element Class Variation Msg
+newStreamerInput class value msg =
+    Input.text
+        class
+        []
+        { onChange = msg
+        , value = value
+        , label = Input.hiddenLabel "Input Streamer"
+        , options = []
+        }
+
+
+editButton : String -> Msg -> Element Class Variation Msg
+editButton label msg =
+    button
+        DPurpleBG
+        [ height (px 20)
+        , onClick msg
+        ]
+        (text label)
 
 
 byMode : Mode -> Streamer -> Bool
@@ -400,22 +473,22 @@ keyedStreamerCard mode streamer =
     case streamer of
         Init name ->
             ( name
-            , tileFormat mode False name defaultLogo [ "Fetching data..." ]
+            , cardFormat mode False name defaultLogo [ "Fetching data..." ]
             )
 
         Online { name, logoUrl, streamUrl, game, status } ->
             ( name
-            , tileFormat mode True name logoUrl [ game, status ]
+            , cardFormat mode True name logoUrl [ game, status ]
             )
 
         Offline name logoUrl ->
             ( name
-            , tileFormat mode False name logoUrl [ "Offline" ]
+            , cardFormat mode False name logoUrl [ "Offline" ]
             )
 
         Failure name ->
             ( name
-            , tileFormat mode
+            , cardFormat mode
                 False
                 name
                 defaultLogo
@@ -423,14 +496,14 @@ keyedStreamerCard mode streamer =
             )
 
 
-tileFormat :
+cardFormat :
     Mode
     -> Bool
     -> String
     -> String
     -> List String
     -> Element Class Variation Msg
-tileFormat mode isOnline name logoUrl additionalLines =
+cardFormat mode isOnline name logoUrl additionalLines =
     case mode of
         Edit ->
             row WhiteTile
@@ -439,22 +512,30 @@ tileFormat mode isOnline name logoUrl additionalLines =
                 ]
                 [ streamerIcon isOnline logoUrl
                 , column None
-                    [ spacing 5 ]
-                  <|
-                    [ el None [] (bold name)
+                    [ spacing 5
+                    , maxWidth (px 700)
+                    , clip
                     ]
-                        ++ List.map
+                    (el None [] (bold name)
+                        :: List.map
                             (el None [] << text)
                             additionalLines
-                , el None [ width fill, height fill ] <|
-                    button DPurpleBG
-                        [ alignRight
-                        , width (px 20)
-                        , height (px 20)
-                        , padding 1
-                        , onClick <| DeleteStreamer name
+                    )
+                , column None
+                    [ width fill
+                    , height fill
+                    , spacing 15
+                    ]
+                    [ cardOptionButton 1 "X" (DeleteStreamer name)
+                    , column None
+                        [ width fill
+                        , height fill
+                        , spacing 5
                         ]
-                        (bold "X")
+                        [ cardOptionButton 0 "▴" (MoveStreamerUp name)
+                        , cardOptionButton 0 "▾" (MoveStreamerDown name)
+                        ]
+                    ]
                 ]
 
         _ ->
@@ -465,13 +546,16 @@ tileFormat mode isOnline name logoUrl additionalLines =
                     ]
                     [ streamerIcon isOnline logoUrl
                     , column None
-                        [ spacing 5 ]
-                      <|
-                        [ el None [] (bold name)
+                        [ spacing 5
+                        , maxWidth (px 700)
+                        , clip
                         ]
-                            ++ List.map
+                        (el None [] (bold name)
+                            :: List.map
                                 (el None [] << text)
                                 additionalLines
+                        )
+                    , el None [ width fill, height fill ] empty
                     ]
 
 
@@ -487,3 +571,15 @@ streamerIcon isOnline src =
         , height (px 100)
         ]
         { src = src }
+
+
+cardOptionButton : Float -> String -> Msg -> Element Class Variation Msg
+cardOptionButton tweak text msg =
+    button DPurpleBG
+        [ alignRight
+        , width (px 20)
+        , height (px 20)
+        , padding (tweak)
+        , onClick msg
+        ]
+        (bold text)

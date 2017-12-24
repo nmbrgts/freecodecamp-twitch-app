@@ -23757,6 +23757,36 @@ var _user$project$StyleSheet$stylesheet = _mdgriffith$style_elements$Style$style
 		}
 	});
 
+var _user$project$Main$cardOptionButton = F3(
+	function (tweak, text, msg) {
+		return A3(
+			_mdgriffith$style_elements$Element$button,
+			_user$project$StyleSheet$DPurpleBG,
+			{
+				ctor: '::',
+				_0: _mdgriffith$style_elements$Element_Attributes$alignRight,
+				_1: {
+					ctor: '::',
+					_0: _mdgriffith$style_elements$Element_Attributes$width(
+						_mdgriffith$style_elements$Element_Attributes$px(20)),
+					_1: {
+						ctor: '::',
+						_0: _mdgriffith$style_elements$Element_Attributes$height(
+							_mdgriffith$style_elements$Element_Attributes$px(20)),
+						_1: {
+							ctor: '::',
+							_0: _mdgriffith$style_elements$Element_Attributes$padding(tweak),
+							_1: {
+								ctor: '::',
+								_0: _mdgriffith$style_elements$Element_Events$onClick(msg),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			},
+			_mdgriffith$style_elements$Element$bold(text));
+	});
 var _user$project$Main$streamerIcon = F2(
 	function (isOnline, src) {
 		return A3(
@@ -23801,6 +23831,58 @@ var _user$project$Main$byMode = F2(
 			}
 		} while(false);
 		return false;
+	});
+var _user$project$Main$editButton = F2(
+	function (label, msg) {
+		return A3(
+			_mdgriffith$style_elements$Element$button,
+			_user$project$StyleSheet$DPurpleBG,
+			{
+				ctor: '::',
+				_0: _mdgriffith$style_elements$Element_Attributes$height(
+					_mdgriffith$style_elements$Element_Attributes$px(20)),
+				_1: {
+					ctor: '::',
+					_0: _mdgriffith$style_elements$Element_Events$onClick(msg),
+					_1: {ctor: '[]'}
+				}
+			},
+			_mdgriffith$style_elements$Element$text(label));
+	});
+var _user$project$Main$newStreamerInput = F3(
+	function ($class, value, msg) {
+		return A3(
+			_mdgriffith$style_elements$Element_Input$text,
+			$class,
+			{ctor: '[]'},
+			{
+				onChange: msg,
+				value: value,
+				label: _mdgriffith$style_elements$Element_Input$hiddenLabel('Input Streamer'),
+				options: {ctor: '[]'}
+			});
+	});
+var _user$project$Main$plusButton = F2(
+	function ($class, msg) {
+		return A3(
+			_mdgriffith$style_elements$Element$button,
+			$class,
+			{
+				ctor: '::',
+				_0: _mdgriffith$style_elements$Element_Attributes$height(
+					_mdgriffith$style_elements$Element_Attributes$px(20)),
+				_1: {
+					ctor: '::',
+					_0: _mdgriffith$style_elements$Element_Attributes$width(
+						_mdgriffith$style_elements$Element_Attributes$px(20)),
+					_1: {
+						ctor: '::',
+						_0: _mdgriffith$style_elements$Element_Events$onClick(msg),
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			_mdgriffith$style_elements$Element$bold('+'));
 	});
 var _user$project$Main$andMap = F2(
 	function (da, db) {
@@ -23904,16 +23986,82 @@ var _user$project$Main$getName = function (s) {
 			return _p3._0;
 	}
 };
+var _user$project$Main$moveDown = F2(
+	function (name, streamers) {
+		var _p4 = streamers;
+		if (_p4.ctor === '::') {
+			if (_p4._1.ctor === '::') {
+				var _p7 = _p4._1._1;
+				var _p6 = _p4._1._0;
+				var _p5 = _p4._0;
+				return _elm_lang$core$Native_Utils.eq(
+					_user$project$Main$getName(_p5),
+					name) ? {
+					ctor: '::',
+					_0: _p6,
+					_1: {ctor: '::', _0: _p5, _1: _p7}
+				} : {
+					ctor: '::',
+					_0: _p5,
+					_1: A2(
+						_user$project$Main$moveDown,
+						name,
+						{ctor: '::', _0: _p6, _1: _p7})
+				};
+			} else {
+				return {
+					ctor: '::',
+					_0: _p4._0,
+					_1: {ctor: '[]'}
+				};
+			}
+		} else {
+			return {ctor: '[]'};
+		}
+	});
+var _user$project$Main$moveUp = F2(
+	function (name, streamers) {
+		var _p8 = streamers;
+		if (_p8.ctor === '::') {
+			if (_p8._1.ctor === '::') {
+				var _p11 = _p8._1._1;
+				var _p10 = _p8._1._0;
+				var _p9 = _p8._0;
+				return _elm_lang$core$Native_Utils.eq(
+					_user$project$Main$getName(_p10),
+					name) ? {
+					ctor: '::',
+					_0: _p10,
+					_1: {ctor: '::', _0: _p9, _1: _p11}
+				} : {
+					ctor: '::',
+					_0: _p9,
+					_1: A2(
+						_user$project$Main$moveUp,
+						name,
+						{ctor: '::', _0: _p10, _1: _p11})
+				};
+			} else {
+				return {
+					ctor: '::',
+					_0: _p8._0,
+					_1: {ctor: '[]'}
+				};
+			}
+		} else {
+			return {ctor: '[]'};
+		}
+	});
 var _user$project$Main$updateStreamer = F4(
 	function (idx, f, item, xs) {
 		var updateItter = F3(
 			function (count, acc, xs) {
 				updateItter:
 				while (true) {
-					var _p4 = xs;
-					if (_p4.ctor === '::') {
-						var _p6 = _p4._1;
-						var _p5 = _p4._0;
+					var _p12 = xs;
+					if (_p12.ctor === '::') {
+						var _p14 = _p12._1;
+						var _p13 = _p12._0;
 						if (_elm_lang$core$Native_Utils.eq(count, idx)) {
 							return A2(
 								_elm_lang$core$Basics_ops['++'],
@@ -23922,17 +24070,17 @@ var _user$project$Main$updateStreamer = F4(
 									_elm_lang$core$Basics_ops['++'],
 									{
 										ctor: '::',
-										_0: A2(f, _p5, item),
+										_0: A2(f, _p13, item),
 										_1: {ctor: '[]'}
 									},
-									_p6));
+									_p14));
 						} else {
-							var _v5 = count + 1,
-								_v6 = {ctor: '::', _0: _p5, _1: acc},
-								_v7 = _p6;
-							count = _v5;
-							acc = _v6;
-							xs = _v7;
+							var _v7 = count + 1,
+								_v8 = {ctor: '::', _0: _p13, _1: acc},
+								_v9 = _p14;
+							count = _v7;
+							acc = _v8;
+							xs = _v9;
 							continue updateItter;
 						}
 					} else {
@@ -23997,16 +24145,16 @@ var _user$project$Main$Online = function (a) {
 	return {ctor: 'Online', _0: a};
 };
 var _user$project$Main$resolveStreamer = F2(
-	function (streamer, _p7) {
-		var _p8 = _p7;
+	function (streamer, _p15) {
+		var _p16 = _p15;
 		var ogname = _user$project$Main$getName(streamer);
-		var _p9 = {ctor: '_Tuple5', _0: _p8.name, _1: _p8.logoUrl, _2: _p8.streamUrl, _3: _p8.game, _4: _p8.status};
-		if ((_p9._0.ctor === 'Just') && (_p9._1.ctor === 'Just')) {
-			if (((_p9._2.ctor === 'Just') && (_p9._3.ctor === 'Just')) && (_p9._4.ctor === 'Just')) {
+		var _p17 = {ctor: '_Tuple5', _0: _p16.name, _1: _p16.logoUrl, _2: _p16.streamUrl, _3: _p16.game, _4: _p16.status};
+		if ((_p17._0.ctor === 'Just') && (_p17._1.ctor === 'Just')) {
+			if (((_p17._2.ctor === 'Just') && (_p17._3.ctor === 'Just')) && (_p17._4.ctor === 'Just')) {
 				return _user$project$Main$Online(
-					A5(_user$project$Main$StreamerInfo, _p9._0._0, _p9._1._0, _p9._2._0, _p9._3._0, _p9._4._0));
+					A5(_user$project$Main$StreamerInfo, _p17._0._0, _p17._1._0, _p17._2._0, _p17._3._0, _p17._4._0));
 			} else {
-				return A2(_user$project$Main$Offline, _p9._0._0, _p9._1._0);
+				return A2(_user$project$Main$Offline, _p17._0._0, _p17._1._0);
 			}
 		} else {
 			return _user$project$Main$Failure(ogname);
@@ -24015,16 +24163,22 @@ var _user$project$Main$resolveStreamer = F2(
 var _user$project$Main$Init = function (a) {
 	return {ctor: 'Init', _0: a};
 };
+var _user$project$Main$MoveStreamerDown = function (a) {
+	return {ctor: 'MoveStreamerDown', _0: a};
+};
+var _user$project$Main$MoveStreamerUp = function (a) {
+	return {ctor: 'MoveStreamerUp', _0: a};
+};
 var _user$project$Main$UpdateInputText = function (a) {
 	return {ctor: 'UpdateInputText', _0: a};
 };
 var _user$project$Main$DeleteStreamer = function (a) {
 	return {ctor: 'DeleteStreamer', _0: a};
 };
-var _user$project$Main$tileFormat = F5(
+var _user$project$Main$cardFormat = F5(
 	function (mode, isOnline, name, logoUrl, additionalLines) {
-		var _p10 = mode;
-		if (_p10.ctor === 'Edit') {
+		var _p18 = mode;
+		if (_p18.ctor === 'Edit') {
 			return A3(
 				_mdgriffith$style_elements$Element$row,
 				_user$project$StyleSheet$WhiteTile,
@@ -24048,33 +24202,39 @@ var _user$project$Main$tileFormat = F5(
 							{
 								ctor: '::',
 								_0: _mdgriffith$style_elements$Element_Attributes$spacing(5),
-								_1: {ctor: '[]'}
-							},
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								{
+								_1: {
 									ctor: '::',
-									_0: A3(
-										_mdgriffith$style_elements$Element$el,
-										_user$project$StyleSheet$None,
-										{ctor: '[]'},
-										_mdgriffith$style_elements$Element$bold(name)),
-									_1: {ctor: '[]'}
-								},
-								A2(
+									_0: _mdgriffith$style_elements$Element_Attributes$maxWidth(
+										_mdgriffith$style_elements$Element_Attributes$px(700)),
+									_1: {
+										ctor: '::',
+										_0: _mdgriffith$style_elements$Element_Attributes$clip,
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							{
+								ctor: '::',
+								_0: A3(
+									_mdgriffith$style_elements$Element$el,
+									_user$project$StyleSheet$None,
+									{ctor: '[]'},
+									_mdgriffith$style_elements$Element$bold(name)),
+								_1: A2(
 									_elm_lang$core$List$map,
-									function (_p11) {
+									function (_p19) {
 										return A3(
 											_mdgriffith$style_elements$Element$el,
 											_user$project$StyleSheet$None,
 											{ctor: '[]'},
-											_mdgriffith$style_elements$Element$text(_p11));
+											_mdgriffith$style_elements$Element$text(_p19));
 									},
-									additionalLines))),
+									additionalLines)
+							}),
 						_1: {
 							ctor: '::',
 							_0: A3(
-								_mdgriffith$style_elements$Element$el,
+								_mdgriffith$style_elements$Element$column,
 								_user$project$StyleSheet$None,
 								{
 									ctor: '::',
@@ -24082,37 +24242,58 @@ var _user$project$Main$tileFormat = F5(
 									_1: {
 										ctor: '::',
 										_0: _mdgriffith$style_elements$Element_Attributes$height(_mdgriffith$style_elements$Element_Attributes$fill),
-										_1: {ctor: '[]'}
-									}
-								},
-								A3(
-									_mdgriffith$style_elements$Element$button,
-									_user$project$StyleSheet$DPurpleBG,
-									{
-										ctor: '::',
-										_0: _mdgriffith$style_elements$Element_Attributes$alignRight,
 										_1: {
 											ctor: '::',
-											_0: _mdgriffith$style_elements$Element_Attributes$width(
-												_mdgriffith$style_elements$Element_Attributes$px(20)),
-											_1: {
+											_0: _mdgriffith$style_elements$Element_Attributes$spacing(15),
+											_1: {ctor: '[]'}
+										}
+									}
+								},
+								{
+									ctor: '::',
+									_0: A3(
+										_user$project$Main$cardOptionButton,
+										1,
+										'X',
+										_user$project$Main$DeleteStreamer(name)),
+									_1: {
+										ctor: '::',
+										_0: A3(
+											_mdgriffith$style_elements$Element$column,
+											_user$project$StyleSheet$None,
+											{
 												ctor: '::',
-												_0: _mdgriffith$style_elements$Element_Attributes$height(
-													_mdgriffith$style_elements$Element_Attributes$px(20)),
+												_0: _mdgriffith$style_elements$Element_Attributes$width(_mdgriffith$style_elements$Element_Attributes$fill),
 												_1: {
 													ctor: '::',
-													_0: _mdgriffith$style_elements$Element_Attributes$padding(1),
+													_0: _mdgriffith$style_elements$Element_Attributes$height(_mdgriffith$style_elements$Element_Attributes$fill),
 													_1: {
 														ctor: '::',
-														_0: _mdgriffith$style_elements$Element_Events$onClick(
-															_user$project$Main$DeleteStreamer(name)),
+														_0: _mdgriffith$style_elements$Element_Attributes$spacing(5),
 														_1: {ctor: '[]'}
 													}
 												}
-											}
-										}
-									},
-									_mdgriffith$style_elements$Element$bold('X'))),
+											},
+											{
+												ctor: '::',
+												_0: A3(
+													_user$project$Main$cardOptionButton,
+													0,
+													'▴',
+													_user$project$Main$MoveStreamerUp(name)),
+												_1: {
+													ctor: '::',
+													_0: A3(
+														_user$project$Main$cardOptionButton,
+														0,
+														'▾',
+														_user$project$Main$MoveStreamerDown(name)),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}),
 							_1: {ctor: '[]'}
 						}
 					}
@@ -24144,48 +24325,70 @@ var _user$project$Main$tileFormat = F5(
 								{
 									ctor: '::',
 									_0: _mdgriffith$style_elements$Element_Attributes$spacing(5),
-									_1: {ctor: '[]'}
-								},
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									{
+									_1: {
 										ctor: '::',
-										_0: A3(
-											_mdgriffith$style_elements$Element$el,
-											_user$project$StyleSheet$None,
-											{ctor: '[]'},
-											_mdgriffith$style_elements$Element$bold(name)),
-										_1: {ctor: '[]'}
-									},
-									A2(
+										_0: _mdgriffith$style_elements$Element_Attributes$maxWidth(
+											_mdgriffith$style_elements$Element_Attributes$px(700)),
+										_1: {
+											ctor: '::',
+											_0: _mdgriffith$style_elements$Element_Attributes$clip,
+											_1: {ctor: '[]'}
+										}
+									}
+								},
+								{
+									ctor: '::',
+									_0: A3(
+										_mdgriffith$style_elements$Element$el,
+										_user$project$StyleSheet$None,
+										{ctor: '[]'},
+										_mdgriffith$style_elements$Element$bold(name)),
+									_1: A2(
 										_elm_lang$core$List$map,
-										function (_p12) {
+										function (_p20) {
 											return A3(
 												_mdgriffith$style_elements$Element$el,
 												_user$project$StyleSheet$None,
 												{ctor: '[]'},
-												_mdgriffith$style_elements$Element$text(_p12));
+												_mdgriffith$style_elements$Element$text(_p20));
 										},
-										additionalLines))),
-							_1: {ctor: '[]'}
+										additionalLines)
+								}),
+							_1: {
+								ctor: '::',
+								_0: A3(
+									_mdgriffith$style_elements$Element$el,
+									_user$project$StyleSheet$None,
+									{
+										ctor: '::',
+										_0: _mdgriffith$style_elements$Element_Attributes$width(_mdgriffith$style_elements$Element_Attributes$fill),
+										_1: {
+											ctor: '::',
+											_0: _mdgriffith$style_elements$Element_Attributes$height(_mdgriffith$style_elements$Element_Attributes$fill),
+											_1: {ctor: '[]'}
+										}
+									},
+									_mdgriffith$style_elements$Element$empty),
+								_1: {ctor: '[]'}
+							}
 						}
 					}));
 		}
 	});
 var _user$project$Main$keyedStreamerCard = F2(
 	function (mode, streamer) {
-		var _p13 = streamer;
-		switch (_p13.ctor) {
+		var _p21 = streamer;
+		switch (_p21.ctor) {
 			case 'Init':
-				var _p14 = _p13._0;
+				var _p22 = _p21._0;
 				return {
 					ctor: '_Tuple2',
-					_0: _p14,
+					_0: _p22,
 					_1: A5(
-						_user$project$Main$tileFormat,
+						_user$project$Main$cardFormat,
 						mode,
 						false,
-						_p14,
+						_p22,
 						_user$project$Main$defaultLogo,
 						{
 							ctor: '::',
@@ -24194,37 +24397,37 @@ var _user$project$Main$keyedStreamerCard = F2(
 						})
 				};
 			case 'Online':
-				var _p15 = _p13._0.name;
+				var _p23 = _p21._0.name;
 				return {
 					ctor: '_Tuple2',
-					_0: _p15,
+					_0: _p23,
 					_1: A5(
-						_user$project$Main$tileFormat,
+						_user$project$Main$cardFormat,
 						mode,
 						true,
-						_p15,
-						_p13._0.logoUrl,
+						_p23,
+						_p21._0.logoUrl,
 						{
 							ctor: '::',
-							_0: _p13._0.game,
+							_0: _p21._0.game,
 							_1: {
 								ctor: '::',
-								_0: _p13._0.status,
+								_0: _p21._0.status,
 								_1: {ctor: '[]'}
 							}
 						})
 				};
 			case 'Offline':
-				var _p16 = _p13._0;
+				var _p24 = _p21._0;
 				return {
 					ctor: '_Tuple2',
-					_0: _p16,
+					_0: _p24,
 					_1: A5(
-						_user$project$Main$tileFormat,
+						_user$project$Main$cardFormat,
 						mode,
 						false,
-						_p16,
-						_p13._1,
+						_p24,
+						_p21._1,
 						{
 							ctor: '::',
 							_0: 'Offline',
@@ -24232,15 +24435,15 @@ var _user$project$Main$keyedStreamerCard = F2(
 						})
 				};
 			default:
-				var _p17 = _p13._0;
+				var _p25 = _p21._0;
 				return {
 					ctor: '_Tuple2',
-					_0: _p17,
+					_0: _p25,
 					_1: A5(
-						_user$project$Main$tileFormat,
+						_user$project$Main$cardFormat,
 						mode,
 						false,
-						_p17,
+						_p25,
 						_user$project$Main$defaultLogo,
 						{
 							ctor: '::',
@@ -24316,9 +24519,9 @@ var _user$project$Main$requestStreamersFromList = function (streamers) {
 			_elm_lang$core$List$length(streamers)),
 		A2(_elm_lang$core$List$map, _user$project$Main$getName, streamers));
 };
-var _user$project$Main$init = function (_p18) {
-	var _p19 = _p18;
-	var streamers = A2(_elm_lang$core$List$map, _user$project$Main$Init, _p19.names);
+var _user$project$Main$init = function (_p26) {
+	var _p27 = _p26;
+	var streamers = A2(_elm_lang$core$List$map, _user$project$Main$Init, _p27.names);
 	return A2(
 		_elm_lang$core$Platform_Cmd_ops['!'],
 		A3(_user$project$Main$Model, _user$project$Main$ViewAll, streamers, ''),
@@ -24326,15 +24529,15 @@ var _user$project$Main$init = function (_p18) {
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p20 = msg;
-		switch (_p20.ctor) {
+		var _p28 = msg;
+		switch (_p28.ctor) {
 			case 'Nope':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					model,
 					{ctor: '[]'});
 			case 'RequestStreamer':
-				var _p21 = _p20._0;
+				var _p29 = _p28._0;
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
@@ -24342,28 +24545,28 @@ var _user$project$Main$update = F2(
 						{
 							streamer: {
 								ctor: '::',
-								_0: _user$project$Main$Init(_p21),
+								_0: _user$project$Main$Init(_p29),
 								_1: model.streamer
 							}
 						}),
 					{
 						ctor: '::',
-						_0: A2(_user$project$Main$requestStreamerInfo, 0, _p21),
+						_0: A2(_user$project$Main$requestStreamerInfo, 0, _p29),
 						_1: {
 							ctor: '::',
 							_0: _user$project$LocalStorage$save(
-								_elm_lang$core$String$toLower(_p21)),
+								_elm_lang$core$String$toLower(_p29)),
 							_1: {ctor: '[]'}
 						}
 					});
 			case 'HandleResponse':
-				if (_p20._1.ctor === 'Ok') {
+				if (_p28._1.ctor === 'Ok') {
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(
 							model,
 							{
-								streamer: A4(_user$project$Main$updateStreamer, _p20._0, _user$project$Main$resolveStreamer, _p20._1._0, model.streamer)
+								streamer: A4(_user$project$Main$updateStreamer, _p28._0, _user$project$Main$resolveStreamer, _p28._1._0, model.streamer)
 							}),
 						{ctor: '[]'});
 				} else {
@@ -24377,10 +24580,10 @@ var _user$project$Main$update = F2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{mode: _p20._0}),
+						{mode: _p28._0}),
 					{ctor: '[]'});
 			case 'DeleteStreamer':
-				var _p23 = _p20._0;
+				var _p31 = _p28._0;
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
@@ -24388,29 +24591,47 @@ var _user$project$Main$update = F2(
 						{
 							streamer: A2(
 								_elm_lang$core$List$filter,
-								function (_p22) {
+								function (_p30) {
 									return A2(
 										F2(
 											function (x, y) {
 												return !_elm_lang$core$Native_Utils.eq(x, y);
 											}),
-										_p23,
-										_user$project$Main$getName(_p22));
+										_p31,
+										_user$project$Main$getName(_p30));
 								},
 								model.streamer)
 						}),
 					{
 						ctor: '::',
 						_0: _user$project$LocalStorage$delete(
-							_elm_lang$core$String$toLower(_p23)),
+							_elm_lang$core$String$toLower(_p31)),
 						_1: {ctor: '[]'}
 					});
+			case 'UpdateInputText':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{inputText: _p28._0}),
+					{ctor: '[]'});
+			case 'MoveStreamerUp':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							streamer: A2(_user$project$Main$moveUp, _p28._0, model.streamer)
+						}),
+					{ctor: '[]'});
 			default:
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{inputText: _p20._0}),
+						{
+							streamer: A2(_user$project$Main$moveDown, _p28._0, model.streamer)
+						}),
 					{ctor: '[]'});
 		}
 	});
@@ -24526,38 +24747,13 @@ var _user$project$Main$header = function (model) {
 														},
 														{
 															ctor: '::',
-															_0: A3(
-																_mdgriffith$style_elements$Element$button,
-																_user$project$StyleSheet$DPurpleBG,
-																{
-																	ctor: '::',
-																	_0: _mdgriffith$style_elements$Element_Attributes$height(
-																		_mdgriffith$style_elements$Element_Attributes$px(20)),
-																	_1: {
-																		ctor: '::',
-																		_0: _mdgriffith$style_elements$Element_Attributes$width(
-																			_mdgriffith$style_elements$Element_Attributes$px(20)),
-																		_1: {
-																			ctor: '::',
-																			_0: _mdgriffith$style_elements$Element_Events$onClick(
-																				_user$project$Main$RequestStreamer(model.inputText)),
-																			_1: {ctor: '[]'}
-																		}
-																	}
-																},
-																_mdgriffith$style_elements$Element$bold('+')),
+															_0: A3(_user$project$Main$newStreamerInput, _user$project$StyleSheet$None, model.inputText, _user$project$Main$UpdateInputText),
 															_1: {
 																ctor: '::',
-																_0: A3(
-																	_mdgriffith$style_elements$Element_Input$text,
-																	_user$project$StyleSheet$None,
-																	{ctor: '[]'},
-																	{
-																		onChange: _user$project$Main$UpdateInputText,
-																		value: model.inputText,
-																		label: _mdgriffith$style_elements$Element_Input$hiddenLabel('Input Streamer'),
-																		options: {ctor: '[]'}
-																	}),
+																_0: A2(
+																	_user$project$Main$plusButton,
+																	_user$project$StyleSheet$DPurpleBG,
+																	_user$project$Main$RequestStreamer(model.inputText)),
 																_1: {ctor: '[]'}
 															}
 														}) : _mdgriffith$style_elements$Element$empty,
@@ -24680,7 +24876,7 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 		init: _user$project$Main$init,
 		update: _user$project$Main$update,
 		view: _user$project$Main$view,
-		subscriptions: function (_p24) {
+		subscriptions: function (_p32) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})(
