@@ -24513,15 +24513,27 @@ var _user$project$Main$requestStreamerInfo = F2(
 			_user$project$Main$HandleResponse(idx),
 			A2(
 				_elm_lang$core$Task$andThen,
-				function (p1) {
-					return _elm_lang$http$Http$toTask(
-						A2(
-							_elm_lang$http$Http$get,
-							streamsURL,
-							_user$project$Main$streamsDecoder(p1)));
+				function (t) {
+					var cacheBuster = A2(
+						_elm_lang$core$Basics_ops['++'],
+						'?cachebuster=',
+						_elm_lang$core$Basics$toString(t));
+					return A2(
+						_elm_lang$core$Task$andThen,
+						function (p1) {
+							return _elm_lang$http$Http$toTask(
+								A2(
+									_elm_lang$http$Http$get,
+									A2(_elm_lang$core$Basics_ops['++'], streamsURL, cacheBuster),
+									_user$project$Main$streamsDecoder(p1)));
+						},
+						_elm_lang$http$Http$toTask(
+							A2(
+								_elm_lang$http$Http$get,
+								A2(_elm_lang$core$Basics_ops['++'], usersURL, cacheBuster),
+								_user$project$Main$usersDecoder)));
 				},
-				_elm_lang$http$Http$toTask(
-					A2(_elm_lang$http$Http$get, usersURL, _user$project$Main$usersDecoder))));
+				_elm_lang$core$Time$now));
 	});
 var _user$project$Main$requestStreamersFromList = function (streamers) {
 	return A3(

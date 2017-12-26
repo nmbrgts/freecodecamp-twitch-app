@@ -258,12 +258,20 @@ requestStreamerInfo idx name =
         streamsURL =
             "https://wind-bow.glitch.me/twitch-api/streams/" ++ name
     in
-        Http.get usersURL usersDecoder
-            |> Http.toTask
+        Time.now
             |> Task.andThen
-                (\p1 ->
-                    Http.get streamsURL (streamsDecoder p1)
-                        |> Http.toTask
+                (\t ->
+                    let
+                        cacheBuster =
+                            "?cachebuster=" ++ toString t
+                    in
+                        Http.get (usersURL ++ cacheBuster) usersDecoder
+                            |> Http.toTask
+                            |> Task.andThen
+                                (\p1 ->
+                                    Http.get (streamsURL ++ cacheBuster) (streamsDecoder p1)
+                                        |> Http.toTask
+                                )
                 )
             |> Task.attempt (HandleResponse idx)
 
