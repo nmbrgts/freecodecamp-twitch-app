@@ -11,6 +11,7 @@ import Element.Input as Input
 import Element.Keyed as Keyed
 import StyleSheet exposing (Class(..), Variation(..), stylesheet)
 import Task
+import Time exposing (Time, every, minute)
 
 
 main : Program Flags Model Msg
@@ -19,7 +20,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         }
 
 
@@ -93,22 +94,19 @@ requestStreamersFromList streamers =
 
 
 type Msg
-    = Nope
-    | RequestStreamer String
+    = RequestStreamer String
     | HandleResponse Int (Result Http.Error (StreamerInfo (Maybe String)))
     | UpdateMode Mode
     | DeleteStreamer String
     | UpdateInputText String
     | MoveStreamerUp String
     | MoveStreamerDown String
+    | IntervalUpdate Time
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Nope ->
-            model ! []
-
         RequestStreamer name ->
             { model
                 | streamer = Init name :: model.streamer
@@ -160,6 +158,9 @@ update msg model =
                     ! [ LocalStorage.forceSave <|
                             List.map getName newStreamerList
                       ]
+
+        IntervalUpdate _ ->
+            model ! requestStreamersFromList model.streamer
 
 
 updateStreamer : Int -> (b -> a -> b) -> a -> List b -> List b
@@ -597,3 +598,12 @@ cardOptionButton tweak text msg =
         , onClick msg
         ]
         (bold text)
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    every minute IntervalUpdate

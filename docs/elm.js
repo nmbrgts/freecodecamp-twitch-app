@@ -24171,6 +24171,12 @@ var _user$project$Main$resolveStreamer = F2(
 var _user$project$Main$Init = function (a) {
 	return {ctor: 'Init', _0: a};
 };
+var _user$project$Main$IntervalUpdate = function (a) {
+	return {ctor: 'IntervalUpdate', _0: a};
+};
+var _user$project$Main$subscriptions = function (model) {
+	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$minute, _user$project$Main$IntervalUpdate);
+};
 var _user$project$Main$MoveStreamerDown = function (a) {
 	return {ctor: 'MoveStreamerDown', _0: a};
 };
@@ -24539,11 +24545,6 @@ var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p28 = msg;
 		switch (_p28.ctor) {
-			case 'Nope':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					model,
-					{ctor: '[]'});
 			case 'RequestStreamer':
 				var _p29 = _p28._0;
 				return A2(
@@ -24636,7 +24637,7 @@ var _user$project$Main$update = F2(
 							A2(_elm_lang$core$List$map, _user$project$Main$getName, newStreamerList)),
 						_1: {ctor: '[]'}
 					});
-			default:
+			case 'MoveStreamerDown':
 				var newStreamerList = A2(_user$project$Main$moveDown, _p28._0, model.streamer);
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
@@ -24649,6 +24650,11 @@ var _user$project$Main$update = F2(
 							A2(_elm_lang$core$List$map, _user$project$Main$getName, newStreamerList)),
 						_1: {ctor: '[]'}
 					});
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					_user$project$Main$requestStreamersFromList(model.streamer));
 		}
 	});
 var _user$project$Main$RequestStreamer = function (a) {
@@ -24888,14 +24894,7 @@ var _user$project$Main$view = function (model) {
 			}));
 };
 var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
-	{
-		init: _user$project$Main$init,
-		update: _user$project$Main$update,
-		view: _user$project$Main$view,
-		subscriptions: function (_p32) {
-			return _elm_lang$core$Platform_Sub$none;
-		}
-	})(
+	{init: _user$project$Main$init, update: _user$project$Main$update, view: _user$project$Main$view, subscriptions: _user$project$Main$subscriptions})(
 	A2(
 		_elm_lang$core$Json_Decode$andThen,
 		function (names) {
@@ -24906,7 +24905,6 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 			_elm_lang$core$Json_Decode$field,
 			'names',
 			_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string))));
-var _user$project$Main$Nope = {ctor: 'Nope'};
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
