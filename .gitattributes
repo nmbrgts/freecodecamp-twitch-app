@@ -1,0 +1,3 @@
+build/* linguist-generated
+docs/* linguist-generated
+*.elm linguist-language=Elm
