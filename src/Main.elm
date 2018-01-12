@@ -84,9 +84,7 @@ init { names } =
 requestStreamersFromList : List Streamer -> List (Cmd Msg)
 requestStreamersFromList streamers =
     List.map getName streamers
-        |> List.map2
-            requestStreamerInfo
-            (List.range 0 <| List.length streamers)
+        |> List.indexedMap requestStreamerInfo
 
 
 
@@ -562,7 +560,7 @@ cardFormat mode isOnline name logoUrl additionalLines =
                 ]
 
         _ ->
-            link ("https://www.twitch.tv/" ++ name) <|
+            newTab ("https://www.twitch.tv/" ++ name) <|
                 row WhiteTile
                     [ spacing 10
                     , padding 10

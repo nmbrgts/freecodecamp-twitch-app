@@ -3260,7 +3260,7 @@ var _Skinney$murmur3$UTF8$foldl = F3(
 
 var _Skinney$murmur3$Murmur3$mur = F2(
 	function (c, h) {
-		return 4294967295 & (((h & 65535) * c) + ((65535 & ((h >>> 16) * c)) << 16));
+		return -1 & (((h & 65535) * c) + ((65535 & ((h >>> 16) * c)) << 16));
 	});
 var _Skinney$murmur3$Murmur3$step = function (acc) {
 	var h1 = A2(_Skinney$murmur3$Murmur3$mur, 5, (acc >>> 19) | (acc << 13));
@@ -3268,14 +3268,14 @@ var _Skinney$murmur3$Murmur3$step = function (acc) {
 };
 var _Skinney$murmur3$Murmur3$mix = F2(
 	function (h1, h2) {
-		var k1 = A2(_Skinney$murmur3$Murmur3$mur, 3432918353, h2);
+		var k1 = A2(_Skinney$murmur3$Murmur3$mur, -862048943, h2);
 		return h1 ^ A2(_Skinney$murmur3$Murmur3$mur, 461845907, (k1 >>> 17) | (k1 << 15));
 	});
 var _Skinney$murmur3$Murmur3$finalize = function (data) {
 	var acc = (!_elm_lang$core$Native_Utils.eq(data.hash, 0)) ? A2(_Skinney$murmur3$Murmur3$mix, data.seed, data.hash) : data.seed;
 	var h1 = acc ^ data.charsProcessed;
-	var h2 = A2(_Skinney$murmur3$Murmur3$mur, 2246822507, h1 ^ (h1 >>> 16));
-	var h3 = A2(_Skinney$murmur3$Murmur3$mur, 3266489909, h2 ^ (h2 >>> 13));
+	var h2 = A2(_Skinney$murmur3$Murmur3$mur, -2048144789, h1 ^ (h1 >>> 16));
+	var h3 = A2(_Skinney$murmur3$Murmur3$mur, -1028477387, h2 ^ (h2 >>> 13));
 	return (h3 ^ (h3 >>> 16)) >>> 0;
 };
 var _Skinney$murmur3$Murmur3$hashFold = F2(
@@ -24314,7 +24314,7 @@ var _user$project$Main$cardFormat = F5(
 				});
 		} else {
 			return A2(
-				_mdgriffith$style_elements$Element$link,
+				_mdgriffith$style_elements$Element$newTab,
 				A2(_elm_lang$core$Basics_ops['++'], 'https://www.twitch.tv/', name),
 				A3(
 					_mdgriffith$style_elements$Element$row,
@@ -24536,13 +24536,9 @@ var _user$project$Main$requestStreamerInfo = F2(
 				_elm_lang$core$Time$now));
 	});
 var _user$project$Main$requestStreamersFromList = function (streamers) {
-	return A3(
-		_elm_lang$core$List$map2,
+	return A2(
+		_elm_lang$core$List$indexedMap,
 		_user$project$Main$requestStreamerInfo,
-		A2(
-			_elm_lang$core$List$range,
-			0,
-			_elm_lang$core$List$length(streamers)),
 		A2(_elm_lang$core$List$map, _user$project$Main$getName, streamers));
 };
 var _user$project$Main$init = function (_p26) {
