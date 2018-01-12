@@ -19,15 +19,15 @@ Edits made by users are cached locally and are persistant between sessions.
 
 ### Tools Used
 
-The majority of this app was written in Elm. Elm is a pleasant, staticly typed functional language, I encourage you to read more about it here. The layout of the app was developed using the Style Elements Library.
+The majority of this app is written in Elm. Elm is a pleasant, staticly typed functional language, I encourage you to read more about it [here](http://elm-lang.org). The layout of the app was developed using the Style Elements Library.
 
-Local caching for the app is acheived using the LocalStorage api. This api is not yet avaialable in Elm, so the code that handles local storage management is written in TypeScript.
+Local caching for the app is acheived using the LocalStorage API. This API is not yet avaialable in Elm, so the code that handles local storage management is written in TypeScript. The Elm app accesses this through a language featuer called Ports.
 
 The caching strategy works something like this:
   - The cache contains a list of streamers names
   - The app maintains a data model that includes this list and as well as other information about the streamers obtained from http requests
   - If a user makes a change to their list of streamers (i.e. adding, deleting or rearranging their list) the cache is udpated to reflect these changes
-  - When the app first starts, it attemps to get this list from the cache. If the cache doesn't exist, it will start the user with a default list of streamers.
+  - When the app first starts, it attemps to get the cached list. If the cache doesn't exist, it will start the user with a default list of streamers.
 
 ### Further Improvements
 
@@ -36,4 +36,4 @@ Some ideas that I have to further improve this app:
   - Reduce the interfaces between Elm and JS using the methods described in Murphy Randal's ElmConf talk, [The Importance of Ports](https://www.youtube.com/watch?v=P3pL85n9_5s)
   - Currently the app banks heavily on user intuition. A solution to this might be mouse over instructions.
   - Drag and drop for rearranging streamers (though I am not very sure how this would be done)
-  - Animations
+  - Animations on transitions to make the intferace feel less jarring
